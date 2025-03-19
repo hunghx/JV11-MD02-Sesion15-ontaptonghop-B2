@@ -2,6 +2,7 @@ package ra.bussiness.daoimpl;
 
 import ra.bussiness.config.ConnectDB;
 import ra.bussiness.dao.ICategoryDao;
+import ra.bussiness.dto.CategoryAndCountProduct;
 import ra.bussiness.entity.Categories;
 
 import java.sql.Connection;
@@ -153,5 +154,28 @@ public class CategoryDaoImpl implements ICategoryDao {
             ConnectDB.closeConnection(conn);
         }
         return false;
+    }
+
+    @Override
+    public List<CategoryAndCountProduct> countProductGroupByCategory() {
+        List<CategoryAndCountProduct> list = new ArrayList<>();
+        Connection conn = ConnectDB.openConnection();
+        try{
+            PreparedStatement pre = conn.prepareStatement("Select c.catalog_name,count(p.product_id) as count_product from Categories c join Products p on c.catalog_id= p.catalog_id "+
+                    " group by c.catalog_id");
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()){
+                CategoryAndCountProduct cat = new CategoryAndCountProduct(
+                        rs.getString("catalog_name"),
+                        rs.getInt("count_product")
+                );
+                list.add(cat);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            ConnectDB.closeConnection(conn);
+        }
+        return list;
     }
 }

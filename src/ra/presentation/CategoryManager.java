@@ -3,6 +3,7 @@ package ra.presentation;
 import ra.bussiness.config.InputMethods;
 import ra.bussiness.design.ICategoryDesign;
 import ra.bussiness.designimpl.CategoryDesignImpl;
+import ra.bussiness.dto.CategoryAndCountProduct;
 import ra.bussiness.entity.Categories;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public class CategoryManager {
             System.out.println("+ 4. Xóa danh mục                                        +");
             System.out.println("+ 5. Cập nhật trạng thái                                 +");
             System.out.println("+ 6. Tìm kiếm theo ten                                   +");
-            System.out.println("+ 7. Quay lại                                            +");
+            System.out.println("+ 7. Thống kê số lượng sản phẩm theo tưng danh mục       +");
+            System.out.println("+ 8. Quay lại                                            +");
             System.out.println("+--------------------------------------------------------+");
 
             System.out.println("Nhập lựa chon : ");
@@ -104,6 +106,19 @@ public class CategoryManager {
                     }
                     break;
                 case 7:
+                    // Thống kê so luong san phamr cuar tung danh muc: ten danh muc, so luong
+                    List<CategoryAndCountProduct> list = categoryDesign.countProductGroupByCategory();
+                    if(list.isEmpty()){
+                        System.out.println("ko có dữ liệu");
+                    }else {
+                        System.out.printf("+%s+%s+\n","-".repeat(20),"-".repeat(10));
+                        System.out.printf("|%-20s|%10s|\n","CategoryName","Count");
+                        System.out.printf("+%s+%s+\n","-".repeat(20),"-".repeat(10));
+                        list.forEach(CategoryAndCountProduct::displayData);
+                    }
+                    break;
+
+                    case 8:
                     return;
                 default:
                     System.out.println("Vui lòng nhập lựa chọn từ 1 đến 6.");

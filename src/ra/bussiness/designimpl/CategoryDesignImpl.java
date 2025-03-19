@@ -4,6 +4,7 @@ import ra.bussiness.dao.ICategoryDao;
 import ra.bussiness.daoimpl.CategoryDaoImpl;
 import ra.bussiness.design.ICategoryDesign;
 import ra.bussiness.dto.CategoryAdd;
+import ra.bussiness.dto.CategoryAndCountProduct;
 import ra.bussiness.entity.Categories;
 
 import java.util.List;
@@ -47,5 +48,10 @@ public class CategoryDesignImpl implements ICategoryDesign {
     @Override
     public List<Categories> findByName(String name) {
         return categoryDao.findByName(name);
+    }
+
+    @Override
+    public List<CategoryAndCountProduct> countProductGroupByCategory() {
+        return categoryDao.countProductGroupByCategory();
     }
 }
